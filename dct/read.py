@@ -1,4 +1,4 @@
-def format_data(data):
+def check(data):
     new_data = []
     new_value = []
     for value in data:
@@ -15,7 +15,7 @@ def format_data(data):
     return new_data
 
 
-def read(path):
+def read_farms(path):
     with open(path, 'r') as f:
         result = []
         fields = f.readline().strip().split(',')
@@ -23,7 +23,7 @@ def read(path):
             new_data = {}
             data = row.strip().split(',')
             if len(data) > 59:
-                data = format_data(data)
+                data = check(data)
             for i in range(len(data)):
                 new_data[fields[i]] = data[i]
             result.append(new_data)                        
@@ -31,4 +31,4 @@ def read(path):
              
 
 if __name__ == "__main__":
-    data = read("Export.csv")
+    data = read_farms("Export.csv")
