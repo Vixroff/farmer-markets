@@ -1,4 +1,10 @@
-from read import read, get_fields
+from read import read
+
+
+def get_fields(path):
+    with open(path, 'r') as f:
+        fields = f.readline().strip()
+    return fields.split(',')
 
 
 def create_market_db(data, fields):
@@ -8,7 +14,10 @@ def create_market_db(data, fields):
         market = {}
         market['id_market'] = count
         for field in fields:
-            market[field] = row[field]
+            try:
+                market[field] = row[field]
+            except KeyError:
+                print(field)
         result.append(market)
         count += 1
     return result
@@ -41,14 +50,15 @@ def create_market_items_db(data, market, items):
     return result
 
 
-if __name__ == "__main__":
+def main():
     data = read("Export.csv")
-
     fields = get_fields("Export.csv")
     fields_market = fields[:28]
     fields_items = fields[28:58]
-
     market_data = create_market_db(data, fields_market)
     items_data = create_items_db(fields_items)
     market_items_data = create_market_items_db(data, market_data, items_data)
-    print(market_items_data)
+
+
+if __name__ == "__main__":
+    main()
