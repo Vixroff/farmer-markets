@@ -106,7 +106,7 @@ def get_address_data(data, states, counties, cities):
     for row in data[1:]:
         address_data = {}
         address_data['id_address'] = id_address
-        address_data['id_fmid'] = row['fmid']
+        address_data['fmid'] = row['fmid']
         address_data['street'] = row['street']
         for state in states:
             if state.get('state') == row['state']:
@@ -123,7 +123,7 @@ def get_address_data(data, states, counties, cities):
             else:
                 continue
         if not address_data.get('county'):
-            address_data['county'] = None
+            address_data['id_county'] = None
         for city in cities:
             if city.get('city') == row['city']:
                 address_data['id_city'] = city['id_city']
@@ -201,7 +201,7 @@ def get_season1_data(data):
         if row.get('season1date'):
             season1_data['fmid'] = row['fmid']
             season1_data['date'] = row['season1date']
-            season1_data['time'] = row['season1time']
+            season1_data['time'] = row['season1time'].replace(';', '/')
             result.append(season1_data)
     return result
 
@@ -213,7 +213,7 @@ def get_season2_data(data):
         if row.get('season2date'):
             season2_data['fmid'] = row['fmid']
             season2_data['date'] = row['season2date']
-            season2_data['time'] = row['season2time']
+            season2_data['time'] = row['season2time'].replace(';', '/')
             result.append(season2_data)
     return result
 
@@ -225,7 +225,7 @@ def get_season3_data(data):
         if row.get('season3date'):
             season3_data['fmid'] = row['fmid']
             season3_data['date'] = row['season3date']
-            season3_data['time'] = row['season3time']
+            season3_data['time'] = row['season3time'].replace(';', '/')
             result.append(season3_data)
     return result
 
@@ -237,7 +237,7 @@ def get_season4_data(data):
         if row.get('season4date') != '':
             season4_data['fmid'] = row['fmid']
             season4_data['date'] = row['season4date']
-            season4_data['time'] = row['season4time']
+            season4_data['time'] = row['season4time'].replace(';', '/')
             result.append(season4_data)
     return result
 
@@ -262,16 +262,16 @@ def transform():
     finish = time.time()
     print(finish - start)
     return{
-        'payments_data': payments,
-        'categories_data': categories,
-        'states_data': states,
-        'counties_data': counties,
-        'cities_data': cities,
-        'zips_data': zips,
-        'addresses_data': addresses,
-        'markets_data': markets,
-        'markets_payments_data': markets_payments,
-        'markets_categories_data': markets_categories,
+        'payments': payments,
+        'categories': categories,
+        'states': states,
+        'counties': counties,
+        'cities': cities,
+        'zips': zips,
+        'addresses': addresses,
+        'markets': markets,
+        'markets_payments': markets_payments,
+        'markets_categories': markets_categories,
         'season1': season1,
         'season2': season2,
         'season3': season3,
