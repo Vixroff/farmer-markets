@@ -1,6 +1,3 @@
-from tools.read import read_farms
-
-
 def create_market_data(data):
     result = []
     for row in data:

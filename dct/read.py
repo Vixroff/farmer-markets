@@ -32,3 +32,4 @@ def read_farms(path):
 
 if __name__ == "__main__":
     data = read_farms("Export.csv")
+    print(data)

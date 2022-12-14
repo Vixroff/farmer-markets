@@ -2,6 +2,8 @@ def check(data):
     new_data = []
     new_value = []
     for value in data:
+        if '""' in value:
+            value = value.replace('""', '"')
         if value.startswith('"') and value != '"':
             new_value.append(value)
         elif value.endswith('"') or value == '"':
@@ -12,7 +14,7 @@ def check(data):
             new_value.append(value)
         else:
             new_data.append(value)
-    return new_data
+    return new_data      
 
 
 def read_farms(path):
