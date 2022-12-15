@@ -122,7 +122,7 @@ def get_address_data(data, states, counties, cities):
                 break
             else:
                 continue
-        if not address_data.get('county'):
+        if not address_data.get('id_county'):
             address_data['id_county'] = None
         for city in cities:
             if city.get('city') == row['city']:
@@ -281,4 +281,4 @@ def transform():
 
 if __name__ == "__main__":
     tranformed_data = transform()
-    print(tranformed_data['season4'][5])
+    print(tranformed_data['addresses'][5])
