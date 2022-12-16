@@ -1,5 +1,5 @@
 from ETL.transform import transform
-from model.db import create_db
+from model.csv.db import create_db
 
 
 def write(data, path):

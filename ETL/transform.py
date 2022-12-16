@@ -1,6 +1,3 @@
-import time
-
-
 from ETL.read import read_farms
 
 
@@ -243,7 +240,6 @@ def get_season4_data(data):
 
 
 def transform():
-    start = time.time()
     data = read_farms("Export.csv")
     payments = get_payments_data(data[0])
     categories = get_categories_data(data[0])
@@ -259,8 +255,6 @@ def transform():
     season2 = get_season2_data(data)
     season3 = get_season3_data(data)
     season4 = get_season4_data(data)
-    finish = time.time()
-    print(finish - start)
     return{
         'payments': payments,
         'categories': categories,
