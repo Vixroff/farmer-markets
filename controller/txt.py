@@ -8,7 +8,7 @@ GREETINGS = """
 
         """
 
- 
+
 GUIDE = """
         Application supports next features:
 

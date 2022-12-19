@@ -1,4 +1,4 @@
-from views.commands import list, find
+from views.commands import list, find, show
 
 
 def show_list(data):
@@ -17,10 +17,18 @@ def show_find(data):
             print("\n")
 
 
+def show_show(data):
+    if data:
+        print(data)
+
+
 def view(cmd, args):
     if cmd == 'list':
         result = list.make_list(args)
-        show_list(result)          
+        show_list(result)     
     elif cmd == 'find':
         result = find.make_find(args)
         show_find(result)
+    elif cmd == 'show':
+        result = show.make_show(args)
+        show_show(result)

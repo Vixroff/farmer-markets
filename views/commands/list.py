@@ -8,7 +8,7 @@ MODES = {
     }
 
 REVERSE = {
-    '+': False, 
+    '+': False,
     '-': True
     }
 

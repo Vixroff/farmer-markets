@@ -64,15 +64,18 @@ def find_by_state(_filter):
 
 def find_by_zip(_filter):
     zips_data = request("db/Zips.csv")
+    addresses_data = request("db/Addresses.csv")
     markets_data = request("db/Markets.csv")
-    _zip = filter_data(zips_data, _filter)
-    if not _zip:
+    zip = filter_data(zips_data, _filter)
+    if not zip:
         print("No markets on this zip code")
         return False
-    filter_to_markets = {'column': 'id_zip', 'value': _zip[0]['id_zip']}
+    filter_to_addresses = {'column': 'id_zip', 'value': zip[0]['id_zip']}
+    address = filter_data(addresses_data, filter_to_addresses)
+    filter_to_markets = {'column': 'fmid', 'value': address[0]['fmid']}
     markets = filter_data(markets_data, filter_to_markets)
     return markets
-    
+
 
 def make_find(args):
     if not check(args):
@@ -121,4 +124,4 @@ if __name__ == "__main__":
         print(result)
         for filters in result:
             for market in filters['markets']:
-                print(market['fmid'], market['marketname'])          
+                print(market['fmid'], market['marketname'])  

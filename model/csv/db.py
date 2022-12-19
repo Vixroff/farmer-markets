@@ -5,39 +5,39 @@ def create_markets_table():
     with open("db/Markets.csv", 'w') as f:
         fields = [
             'fmid', 'marketname', 'website', 'facebook', 'twitter',
-            'youtube', 'othermedia', 'id_zip', 'x', 'y', 
+            'youtube', 'othermedia', 'x', 'y',
             'location', 'updatetime']
         f.write(';'.join(fields) + '\n')
 
 
 def create_addresses_table():
     with open("db/Addresses.csv", 'w') as f:
-        fields = ['id_address', 'id_state', 'id_county', 'id_city', 'street', 'fmid']
+        fields = ['id_address', 'id_state', 'id_county', 'id_city', 'id_zip', 'street', 'fmid']
         f.write(';'.join(fields) + '\n')
 
 
 def create_states_table():
     with open("db/States.csv", 'w') as f:
         fields = ['id_state', 'state']
-        f.write(';'.join(fields) +'\n')
+        f.write(';'.join(fields) + '\n')
 
 
 def create_counties_table():
     with open("db/Counties.csv", 'w') as f:
         fields = ['id_county', 'county']
-        f.write(';'.join(fields) +'\n')
+        f.write(';'.join(fields) + '\n')
 
 
 def create_cities_table():
     with open("db/Cities.csv", 'w') as f:
         fields = ['id_city', 'city']
-        f.write(';'.join(fields) +'\n')
+        f.write(';'.join(fields) + '\n')
 
 
 def create_zips_table():
     with open("db/Zips.csv", 'w') as f:
         fields = ['id_zip', 'zip']
-        f.write(';'.join(fields) +'\n')
+        f.write(';'.join(fields) + '\n')
 
 
 def create_categories_table():
@@ -49,7 +49,7 @@ def create_categories_table():
 def create_payments_table():
     with open("db/Payments.csv", 'w') as f:
         fields = ['id_payment', 'payment']
-        f.write(';'.join(fields) +'\n')
+        f.write(';'.join(fields) + '\n')
 
 
 def create_markets_payments_table():

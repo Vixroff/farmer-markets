@@ -8,7 +8,7 @@ def read_farms(path):
             values = format(row)
             for index, key in enumerate(keys):
                 data[key] = values[index]
-            result.append(data)                        
+            result.append(data)                 
         return result
 
 
@@ -29,7 +29,7 @@ def format(data):
         else:
             formatted_data.append(value)
     return formatted_data
-    
+
 
 if __name__ == "__main__":
     data = read_farms("Export.csv")

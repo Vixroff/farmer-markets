@@ -95,9 +95,9 @@ def get_zips_data(data):
         else:
             continue
     return result
-        
 
-def get_address_data(data, states, counties, cities):
+
+def get_address_data(data, states, counties, cities, zips):
     result = []
     id_address = 1
     for row in data[1:]:
@@ -129,6 +129,14 @@ def get_address_data(data, states, counties, cities):
                 continue
         if not address_data.get('id_city'):
             address_data['id_city'] = None
+        for zip in zips:
+            if zip.get('zip') == row['zip']:
+                address_data['id_zip'] = zip['id_zip']
+                break
+            else:
+                continue
+        if not address_data.get('id_zip'):
+            address_data['id_zip'] = None
         result.append(address_data)
         id_address += 1
     return result
@@ -149,14 +157,6 @@ def get_markets_data(data, zips):
         market_data['y'] = row['y']
         market_data['location'] = row['location']
         market_data['updatetime'] = row['updatetime']
-        for zip in zips:
-            if zip.get('zip') == row['zip']:
-                market_data['id_zip'] = zip['id_zip']
-                break
-            else:
-                continue
-        if not market_data.get('id_zip'):
-            market_data['id_zip'] = None
         result.append(market_data)
     return result
 
@@ -247,7 +247,7 @@ def transform():
     counties = get_counties_data(data)
     cities = get_cities_data(data)
     zips = get_zips_data(data)
-    addresses = get_address_data(data, states, counties, cities)
+    addresses = get_address_data(data, states, counties, cities, zips)
     markets = get_markets_data(data, zips)
     markets_payments = get_markets_payments_data(data, payments)
     markets_categories = get_markets_categories_data(data, categories)
@@ -255,7 +255,7 @@ def transform():
     season2 = get_season2_data(data)
     season3 = get_season3_data(data)
     season4 = get_season4_data(data)
-    return{
+    return {
         'payments': payments,
         'categories': categories,
         'states': states,
