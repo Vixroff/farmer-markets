@@ -11,8 +11,7 @@ def request(path: str) -> list:
     return result
 
 
-def get_filtered_data(path: str, _filter: dict) -> list:
-    data = request(path)
+def filter_data(data: list, _filter: dict) -> list:
     filtered_data = []
     for row in data:
         if _filter['value'] == row[_filter['column']]:
@@ -20,3 +19,16 @@ def get_filtered_data(path: str, _filter: dict) -> list:
         else:
             continue
     return filtered_data
+
+
+def write(data, path):
+    with open(path, 'r+') as f:
+        fields = f.readline().strip().split(';')
+        for row in data:
+            to_write = []
+            for field in fields:
+                try:
+                    to_write.append(str(row[field]))
+                except KeyError as e:
+                    print(e, row)
+            f.write(';'.join(to_write) + '\n')

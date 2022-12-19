@@ -1,18 +1,7 @@
 from ETL.transform import transform
+
+from model.csv.request import write
 from model.csv.db import create_db
-
-
-def write(data, path):
-    with open(path, 'r+') as f:
-        fields = f.readline().strip().split(';')
-        for row in data:
-            to_write = []
-            for field in fields:
-                try:
-                    to_write.append(str(row[field]))
-                except KeyError as e:
-                    print(e, row)
-            f.write(';'.join(to_write) + '\n')
 
 
 def load():

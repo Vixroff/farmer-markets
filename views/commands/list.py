@@ -13,28 +13,22 @@ REVERSE = {
     }
 
 
-def check_input(args):
+def check_args(args):
     if not args:
+        return True
+    elif len(args) == 1 and args[0] in MODES:
+        return True
+    elif len(args) == 2 and args[0] in MODES and args[1] in REVERSE:
         return True
     elif len(args) > 2:
         print('Oops! Too much arguments\nTry again!')
         return False
-    else:
-        if len(args) >= 1:
-            mode = args[0]
-            if mode not in MODES:
-                print('Oops! Wrong mode type\nTry again!')
-                return False
-            else:
-                if len(args) == 2:
-                    reverse = args[1]
-                    if reverse not in REVERSE:
-                        print('Oops! Wrong reverse type\nTry again!')
-                        return False
-                    else:
-                        return True
-                else:
-                    return True
+    elif len(args) >= 1 and args[0] not in MODES:
+        print('Oops! Wrong mode type\nTry again!')
+        return False
+    elif len(args) == 2 and args[1] not in REVERSE:
+        print('Oops! Wrong reverse type\nTry again!')
+        return False
 
 
 def get_args(args):
@@ -50,8 +44,8 @@ def get_args(args):
     return mode, reverse
 
 
-def cmd_list(args):
-    if not check_input(args):
+def make_list(args):
+    if not check_args(args):
         return False
     data = request("db/Markets.csv")
     for market in data:
