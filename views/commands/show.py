@@ -4,6 +4,7 @@ from model.csv.request import request, filter_data
 def check(args):
     if len(args) != 1:
         print("Please, enter your FMID index correctly!")
+        return False
     zip_code = args[0]
     if len(zip_code) != 7:
         print("Invalid FMID code!")
@@ -61,19 +62,43 @@ def get_payments(market: dict):
     return market
 
 
+def get_seasons(market: dict):
+    market['seasons'] = {}
+    season1_data = request("db/Season1.csv")
+    season2_data = request("db/Season2.csv")
+    season3_data = request("db/Season3.csv")
+    season4_data = request("db/Season4.csv")
+    filter_to_season = {'column': 'fmid', 'value': market['fmid']}
+    season1 = filter_data(season1_data, filter_to_season)
+    season2 = filter_data(season2_data, filter_to_season)
+    season3 = filter_data(season3_data, filter_to_season)
+    season4 = filter_data(season4_data, filter_to_season)
+    if season1:
+        market['seasons']['season1'] = [season1[0].get('date'), season1[0].get('time')]
+    if season2:
+        market['seasons']['season2'] = [season2[0].get('date'), season2[0].get('time')]
+    if season3:
+        market['seasons']['season3'] = [season3[0].get('date'), season3[0].get('time')]
+    if season4:
+        market['seasons']['season4'] = [season4[0].get('date'), season4[0].get('time')]
+    return market
+
+
 def make_show(args):
     if not check(args):
         return False
-    market_result = {}
+    market = {}
     fmid = args[0]
     markets_data = request("db/Markets.csv")
-    for market in markets_data:
-        if market['fmid'] == fmid:
-            market_result = market
-    if market_result:
-        market = get_categories(market_result)
-        market = get_payments(market_result)
-        market = get_full_address(market_result)
+    for row in markets_data:
+        if row['fmid'] == fmid:
+            market = row
+            break
+    if market:
+        market = get_categories(market)
+        market = get_payments(market)
+        market = get_full_address(market)
+        market = get_seasons(market)
         return market
     else:
         print("No market on this FMID")

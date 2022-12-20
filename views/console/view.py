@@ -19,7 +19,36 @@ def show_find(data):
 
 def show_show(data):
     if data:
-        print(data)
+        print(
+            f"""
+            FarmMarket №{data['fmid']}:
+                "{data['marketname']}"
+
+            Categories: 
+                {', '.join(data.get('categories'))}
+            Payments: 
+                {', '.join(data.get('payments'))}
+
+            Seasons of working: 
+                Season 1 - {data['seasons'].get('season1')}
+                Season 2 - {data['seasons'].get('season2')}
+                Season 3 - {data['seasons'].get('season3')}
+                Season 4 - {data['seasons'].get('season4')}
+
+            Address: 
+                street: {data['address'].get('street')}
+                city: {data['address'].get('city')}
+                county: {data['address'].get('county')}
+                state: {data['address'].get('state')}
+                zip code: {data['address'].get('zip')}
+            
+            Social:
+                website: {data.get('website')}
+                facebook: {data.get('facebook')}
+                twitter: {data.get('twitter')}
+                youtube: {data.get('youtube')}
+            """
+        )
 
 
 def view(cmd, args):
