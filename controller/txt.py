@@ -37,7 +37,7 @@ GUIDE = """
             ;
         --  command [show 'FMID'] allows you to get full info about specific market.
             ;
-        --  command [add_review 'FMID'] allows you to leave a rating and write review about specific market.
+        --  command [review 'FMID'] allows you to leave a rating and write review about specific market.
             ;
         --  command [exit] makes exit from application.
 

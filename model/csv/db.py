@@ -88,6 +88,18 @@ def create_season4_table():
         f.write(';'.join(fields) + '\n')
 
 
+def create_users_table():
+    with open('db/Users.csv', 'w') as f:
+        fields = ['id_user', 'firstname', 'lastname']
+        f.write(';'.join(fields) + '\n')
+
+
+def create_reviews_table():
+    with open('db/Reviews.csv', 'w') as f:
+        fields = ['id_review', 'id_user', 'fmid', 'rate', 'review']
+        f.write(';'.join(fields) + '\n')
+
+
 def create_db():
     if not os.path.exists('db'):
         os.mkdir('db')
@@ -105,6 +117,8 @@ def create_db():
     create_season2_table()
     create_season3_table()
     create_season4_table()
+    create_users_table()
+    create_reviews_table()
 
 
 if __name__ == "__main__":

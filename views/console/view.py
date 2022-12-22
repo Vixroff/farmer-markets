@@ -1,4 +1,4 @@
-from views.commands import list, find, show
+from views.commands import list, find, show, review
 
 
 def show_list(data):
@@ -61,3 +61,6 @@ def view(cmd, args):
     elif cmd == 'show':
         result = show.make_show(args)
         show_show(result)
+    elif cmd == 'review':
+        result = review.make_review(args)
+        print(result)

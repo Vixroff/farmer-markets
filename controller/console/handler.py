@@ -6,7 +6,7 @@ from views.console.view import view
 from controller.txt import BYE, GUIDE
 
 
-COMMANDS = ('list', 'find', 'show', 'add_review', 'guide', 'exit')
+COMMANDS = ('list', 'find', 'show', 'review', 'guide', 'exit')
 
 
 def handler(cmd, args):
