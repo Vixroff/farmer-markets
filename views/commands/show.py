@@ -1,25 +1,32 @@
+from config import Config
+
+
 from model.csv.request import request, filter_data
 
 
 def check(args):
-    if len(args) != 1:
-        print("Please, enter your FMID index correctly!")
-        return False
-    zip_code = args[0]
-    if len(zip_code) != 7:
-        print("Invalid FMID code!")
-        return False
-    else:
-        return True
+    if not args:
+        return False, "No FMID entered"
+    if len(args) != 1 or len(args[0]) != 7:
+        return False, "Please, enter your FMID index correctly!"
+    markets_data = request(Config.MARKETS)
+    for row in markets_data:
+        if row['fmid'] == args[0]:
+            return True, "Args are valid"
+    return False, "No Market on this FMID"
+
+
+def get_fmid(args):
+    return args[0]
 
 
 def get_full_address(market: dict):
     market['address'] = {}
-    addresses_data = request("db/Addresses.csv")
-    cities_data = request("db/Cities.csv")
-    counties_data = request("db/Counties.csv")
-    states_data = request("db/States.csv")
-    zips_data = request("db/Zips.csv")
+    addresses_data = request(Config.ADDRESSES)
+    cities_data = request(Config.CITIES)
+    counties_data = request(Config.COUNTIES)
+    states_data = request(Config.STATES)
+    zips_data = request(Config.ZIPS)
     _filter_to_address = {'column': 'fmid', 'value': market['fmid']}
     address = filter_data(addresses_data, _filter_to_address)[0]
     _filter_to_cities = {'column': 'id_city', 'value': address['id_city']}
@@ -40,8 +47,8 @@ def get_full_address(market: dict):
 
 def get_categories(market: dict):
     market['categories'] = []
-    categories_data = request("db/Categories.csv")
-    markets_categories_data = request("db/MarketsCategories.csv")
+    categories_data = request(Config.CATEGORIES)
+    markets_categories_data = request(Config.MARKETS_CATEGORIES)
     for item in markets_categories_data:
         if item['fmid'] == market['fmid']:
             for category in categories_data:
@@ -52,8 +59,8 @@ def get_categories(market: dict):
 
 def get_payments(market: dict):
     market['payments'] = []
-    payments_data = request("db/Payments.csv")
-    markets_payments_data = request("db/MarketsPayments.csv")
+    payments_data = request(Config.PAYMENTS)
+    markets_payments_data = request(Config.MARKETS_PAYMENTS)
     for item in markets_payments_data:
         if item['fmid'] == market['fmid']:
             for payment in payments_data:
@@ -64,10 +71,10 @@ def get_payments(market: dict):
 
 def get_seasons(market: dict):
     market['seasons'] = {}
-    season1_data = request("db/Season1.csv")
-    season2_data = request("db/Season2.csv")
-    season3_data = request("db/Season3.csv")
-    season4_data = request("db/Season4.csv")
+    season1_data = request(Config.SEASON1)
+    season2_data = request(Config.SEASON2)
+    season3_data = request(Config.SEASON3)
+    season4_data = request(Config.SEASON4)
     filter_to_season = {'column': 'fmid', 'value': market['fmid']}
     season1 = filter_data(season1_data, filter_to_season)
     season2 = filter_data(season2_data, filter_to_season)
@@ -84,27 +91,64 @@ def get_seasons(market: dict):
     return market
 
 
-def make_show(args):
-    if not check(args):
-        return False
+def execute_show(fmid):
     market = {}
-    fmid = args[0]
-    markets_data = request("db/Markets.csv")
+    markets_data = request(Config.MARKETS)
     for row in markets_data:
         if row['fmid'] == fmid:
             market = row
             break
-    if market:
-        market = get_categories(market)
-        market = get_payments(market)
-        market = get_full_address(market)
-        market = get_seasons(market)
-        return market
+    market = get_categories(market)
+    market = get_payments(market)
+    market = get_full_address(market)
+    market = get_seasons(market)
+    return market
+
+
+def show_output(data):
+    print(
+        f"""
+        FarmMarket №{data['fmid']}:
+            "{data['marketname']}"
+
+        Categories: 
+            {', '.join(data.get('categories'))}
+        Payments: 
+            {', '.join(data.get('payments'))}
+
+        Seasons of working: 
+            Season 1 - {data['seasons'].get('season1')}
+            Season 2 - {data['seasons'].get('season2')}
+            Season 3 - {data['seasons'].get('season3')}
+            Season 4 - {data['seasons'].get('season4')}
+
+        Address: 
+            street: {data['address'].get('street')}
+            city: {data['address'].get('city')}
+            county: {data['address'].get('county')}
+            state: {data['address'].get('state')}
+            zip code: {data['address'].get('zip')}
+        
+        Social:
+            website: {data.get('website')}
+            facebook: {data.get('facebook')}
+            twitter: {data.get('twitter')}
+            youtube: {data.get('youtube')}
+        """
+    )
+
+
+def show_console(args):
+    arguments_validation = check(args)
+    status = arguments_validation[0]
+    answer = arguments_validation[1]
+    if status is False:
+        print(answer)
     else:
-        print("No market on this FMID")
-        return False
+        fmid = get_fmid(args)
+        result = execute_show(fmid)
+        show_output(result)
 
 
 if __name__ == "__main__":
-    result = make_show(['1019938'])
-    print(result)
+    show_console(['1111111'])
