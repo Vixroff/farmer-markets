@@ -4,4 +4,4 @@ env
 .DS_Store
 dct
 notices
-db
+.env

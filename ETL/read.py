@@ -33,7 +33,7 @@ def format(data):
 
 if __name__ == "__main__":
     data = read_farms("Export.csv")
-    for row in data:
+    for row in data[1:]:
         for value in row.values():
             if "\"" in value:
                 print(row)

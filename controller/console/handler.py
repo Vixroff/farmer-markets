@@ -2,7 +2,6 @@ import sys
 import time
 
 
-from views.console.view import view
 from controller.txt import BYE, GUIDE
 
 
@@ -21,4 +20,4 @@ def handler(cmd, args):
     elif cmd == 'guide':
         print(GUIDE)
     else:
-        view(cmd, args)
+        print("Sorryy, it will be soon!")
