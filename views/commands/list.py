@@ -1,16 +1,16 @@
-from model.csv.request import request
+from model.commands.list import get_data
 
 
 MODES = {
     '1': 'fmid',
     '2': 'marketname',
-    '3': 'rating'
-    }
+    '3': 'rate'
+}
 
 REVERSE = {
     '+': False,
     '-': True
-    }
+}
 
 
 def check_args(args):
@@ -41,28 +41,43 @@ def get_args(args):
     return mode, reverse
 
 
-def make_list(mode, reverse):
-    data = request("db/Markets.csv")
-    for market in data:
-        market['rating'] = 'No rating yet'
-    result = sorted(data, key=lambda x: x[MODES.get(mode)], reverse=REVERSE.get(reverse))
-    return result
+def show_output(market: dict):
+    x = """
+    Market №{fmid}
+        "{marketname}"
+    Rating: {rate}
+    Address:
+        {street}, {city}, {county}, {state}, {zip}
+    Categories:
+        {categories}
+    Payments:
+        {payments}
+    Seasons:
+        season1 - {season1} {season1_time}
+        season2 - {season2} {season2_time}
+        season3 - {season3} {season3_time}
+        season4 - {season4} {season4_time}
+    Media:
+        youtube - {youtube}
+        facebook - {facebook}
+        website - {website}
+        othermedia - {othermedia}
+    \n
+    """.format(**market)
+    print(x)
 
 
-def show_list(data):
-    for row in data:
-        print("FMID:{fmid}, MARKETNAME: {marketname}, RATING: {rating}".format(**row))
-
-
-def list_console(args):
-    arguments_validation = check_args(args)
-    status = arguments_validation[0]
-    answer = arguments_validation[1]
-    if status is False:
-        print(answer)
-    else:
+def execute_list(args=None):
+    status, answer = check_args(args)
+    if status is True:
         mode, reverse = get_args(args)
-        result = make_list(mode, reverse)
-        show_list(result)
+        data = get_data()
+        result = sorted(data, key=lambda x: x[MODES.get(mode)], reverse=REVERSE.get(reverse))
+        for market in result:
+            show_output(market)
+    else:
+        print(answer)
 
 
+if __name__ == "__main__":
+    execute_list()
