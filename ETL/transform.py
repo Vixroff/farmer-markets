@@ -110,7 +110,7 @@ def get_markets_data(data):
         market_data['fmid'] = row['fmid']
         market_data['marketname'] = row['marketname']
         time = datetime.strftime(
-            datetime.strptime(row['updatetime'], '%m/%d/%Y %I:%M:%S %p'), '%Y-%m-%d %H:%M:%S' 
+            datetime.strptime(row['updatetime'], '%m/%d/%Y %I:%M:%S %p'), '%Y-%m-%d %H:%M:%S'
         )
         market_data['updatetime'] = time
         id_market += 1
@@ -222,7 +222,7 @@ def transform(data):
     cities = get_cities_data(content)
     zips = get_zips_data(content)
     locations = get_location_data(content, states, counties, cities, zips)
-    return{
+    return {
         'Payments': payments,
         'Categories': categories,
         'States': states,
@@ -235,7 +235,7 @@ def transform(data):
         'Markets_has_Categories': markets_categories,
         'Seasons': seasons,
         'Media': media
-        }
+    }
 
 
 if __name__ == "__main__":

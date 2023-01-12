@@ -8,7 +8,7 @@ def read_farms(path):
             values = format(row)
             for index, key in enumerate(keys):
                 data[key] = values[index]
-            result.append(data)                 
+            result.append(data)
         return result
 
 
