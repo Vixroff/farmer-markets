@@ -33,7 +33,7 @@ make upload
 
 Enter command to launch the application:
 ```
-make start
+make run
 ```
 Commands and features:<br>
 - **list [mode, reverse]** - shows all Farmers markets sorted by mode type;

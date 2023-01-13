@@ -41,40 +41,43 @@ def get_args(args):
     return mode, reverse
 
 
-def show_output(market: dict):
-    x = """
-    Market №{fmid}
-        "{marketname}"
-    Rating: {rate}
-    Address:
-        {street}, {city}, {county}, {state}, {zip}
-    Categories:
-        {categories}
-    Payments:
-        {payments}
-    Seasons:
-        season1 - {season1} {season1_time}
-        season2 - {season2} {season2_time}
-        season3 - {season3} {season3_time}
-        season4 - {season4} {season4_time}
-    Media:
-        youtube - {youtube}
-        facebook - {facebook}
-        website - {website}
-        othermedia - {othermedia}
-    \n
-    """.format(**market)
-    print(x)
+def show_output(markets: list):
+    for market in markets:
+        x = """
+        Market №{fmid}
+            "{marketname}"
+        Rating: {rate}
+        Address:
+            {street}, {city}, {county}, {state}, {zip}
+        Categories:
+            {categories}
+        Payments:
+            {payments}
+        Seasons:
+            season1 - {season1} {season1_time}
+            season2 - {season2} {season2_time}
+            season3 - {season3} {season3_time}
+            season4 - {season4} {season4_time}
+        Media:
+            youtube - {youtube}
+            facebook - {facebook}
+            website - {website}
+            othermedia - {othermedia}
+        \n
+        """.format(**market)
+        print(x)
 
 
 def execute_list(args=None):
     status, answer = check_args(args)
     if status is True:
         mode, reverse = get_args(args)
-        data = get_data()
-        result = sorted(data, key=lambda x: x[MODES.get(mode)], reverse=REVERSE.get(reverse))
-        for market in result:
-            show_output(market)
+        markets = get_data()
+        if markets:
+            markets = sorted(markets, key=lambda x: x[MODES.get(mode)], reverse=REVERSE.get(reverse))
+            show_output(markets)
+        else:
+            print('No markets were found')
     else:
         print(answer)
 
