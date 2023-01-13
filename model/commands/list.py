@@ -57,6 +57,8 @@ def get_data():
             market = market | categories[0] | payments[0]
             result.append(market)
         return result
+    else:
+        print(answer)
 
 
 if __name__ == "__main__":

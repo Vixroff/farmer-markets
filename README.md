@@ -7,7 +7,7 @@ This is my application what allows you to work with US farmers markets data in e
 - MySQL
 
 
-
+***
 ### Unpacking
 
 First you have to set up virtual environment and install dependencies:
@@ -28,4 +28,20 @@ And enter next console commands:
 make init
 make upload
 ```
+***
+### Usage
+
+Enter command to launch the application:
+```
+make run
+```
+Commands and features:<br>
+- **[list] mode reverse** - shows all Farmers markets sorted by mode type(default is increase by marketname);
+- **[find] mode value** - shows specified markets according to your entered filter (allowing several filters mode-value together);
+- **[guide]** - shows app instruction;
+- **[exit]** - finish session;
+
+
+
+
 

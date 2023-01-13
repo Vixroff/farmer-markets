@@ -1,5 +1,5 @@
 run:
-	python3 -m controller.console.controller
+	python3 -m controller.controller
 
 init:
 	python3 -m model.mysql.db
