@@ -36,9 +36,10 @@ Enter command to launch the application:
 make run
 ```
 Commands and features:<br>
-- **list [mode, reverse]** - shows all Farmers markets sorted by mode type;
-- **guide** - shows app instruction;
-- **exit** - finish session;
+- **[list] mode reverse** - shows all Farmers markets sorted by mode type(default is increase by marketname);
+- **[find] mode value** - shows specified markets according to your entered filter (allowing several filters mode-value together);
+- **[guide]** - shows app instruction;
+- **[exit]** - finish session;
 
 
 
