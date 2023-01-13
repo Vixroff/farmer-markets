@@ -1,14 +1,3 @@
-GREETINGS = """
-
-                ***Welcome to the FarmMarkets application!***
-        Here you can find all informations about farmers markets you interested
-        -----------------------------------------------------------------------
-
-        Enter [guide] command to get instruction
-
-        """
-
-
 GUIDE = """
         Application supports next features:
 
@@ -44,8 +33,5 @@ GUIDE = """
         """
 
 
-BYE = """
-        Thank you for using FarmMarkets application!
-        Good Bye!
-
-        """
+def execute_guide():
+    print(GUIDE)

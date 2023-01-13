@@ -8,29 +8,30 @@ QUERIES_TYPES = {
 }
 
 
-def get_data(filter):
-    column = filter['column']
-    value = filter['value']
-    table = QUERIES_TYPES.get(column)
+def get_data(field, value):
+    result = []
+    table = QUERIES_TYPES.get(field)
     status, answer = create_connection("FarmMarkets")
     if status is True:
         query = f"""
-        SELECT ma.fmid, ma.marketname
-        FROM FarmMarkets.Markets as ma
-            INNER JOIN FarmMarkets.Locations as lo
-                ON ma.idMarkets = lo.Markets_idMarkets
-            INNER JOIN FarmMarkets.{table} as ci
-                ON lo.{table}_id{table} = ci.id{table}
-        WHERE ci.{column} = '{value}'
+        SELECT fmid, marketname
+        FROM FarmMarkets.Markets
+            INNER JOIN FarmMarkets.Locations
+                ON idMarkets = Markets_idMarkets
+            INNER JOIN FarmMarkets.{table}
+                ON {table}_id{table} = id{table}
+        WHERE {field} = '{value}'
         """
         db = answer
         cursor = db.cursor(dictionary=True)
         cursor.execute(query)
         result = cursor.fetchall()
-        return result
     else:
         print(answer)
+    return result
 
 
 if __name__ == "__main__":
-    get_data({'column': 'city', 'value': 'New York'})
+    result = get_data('city', 'New York')
+    print(result)
+    

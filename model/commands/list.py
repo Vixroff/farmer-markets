@@ -2,11 +2,11 @@ from model.mysql.connection import create_connection
 
 
 GET_MARKETS_DATA = """
-SELECT ma.idMarkets, ma.fmid, ma.marketname,
-st.state, co.county, ci.city, zi.zip, lo.street, lo.x, lo.y,
-me.youtube, me.facebook, me.website, me.othermedia,
-se.season1, se.season1_time, se.season2, se.season2_time, se.season3, se.season3_time, se.season4, se.season4_time,
-re.rate
+SELECT idMarkets, fmid, marketname,
+state, county, city, zip, street, x, y,
+youtube, facebook, website, othermedia,
+season1, season1_time, season2, season2_time, season3, season3_time, season4, season4_time,
+rate
 FROM FarmMarkets.Markets as ma
 	INNER JOIN FarmMarkets.Locations as lo ON ma.idMarkets = lo.Markets_idMarkets
 		LEFT JOIN FarmMarkets.States as st ON lo.States_idStates = st.idStates
@@ -56,11 +56,13 @@ def get_data():
             payments = cursor.fetchall()
             market = market | categories[0] | payments[0]
             result.append(market)
-        return result
     else:
         print(answer)
+    return result
 
 
 if __name__ == "__main__":
     result = get_data()
-    print(result)
+    for row in result:
+        print(row)
+        print('\n')
