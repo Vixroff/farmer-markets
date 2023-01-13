@@ -239,7 +239,7 @@ def transform(data):
 
 
 if __name__ == "__main__":
-    data = read_farms(Config.SOURCE_PATH)
+    data = read_farms(Config.MARKETS_PATH)
     transformed = transform(data)
 
     for row in transformed['Seasons']:

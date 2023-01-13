@@ -12,10 +12,8 @@ COMMANDS = ('list', 'find', 'show', 'review', 'guide', 'exit')
 def handler(cmd, args):
     if cmd not in COMMANDS:
         print('Wrong command!')
-        time.sleep(1)
     elif cmd == 'exit':
         print(BYE)
-        time.sleep(1)
         sys.exit()
     elif cmd == 'guide':
         print(GUIDE)

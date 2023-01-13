@@ -1,4 +1,4 @@
-from views.handler import handler
+from controller.handler import handler
 
 
 from controller.txt import GREETINGS

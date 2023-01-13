@@ -40,8 +40,3 @@ Commands and features:<br>
 - **[find] mode value** - shows specified markets according to your entered filter (allowing several filters mode-value together);
 - **[guide]** - shows app instruction;
 - **[exit]** - finish session;
-
-
-
-
-
