@@ -12,7 +12,7 @@ class Config:
     DB_USER = os.getenv('USERNAME')
     DB_PASSWORD = os.getenv('PASSWORD')
     HOST = '127.0.0.1'
-    SOURCE_PATH = os.path.join(basedir, 'Export.csv')
+    MARKETS_PATH = os.path.join(basedir, 'data/Export.csv')
 
 
 if __name__ == "__main__":

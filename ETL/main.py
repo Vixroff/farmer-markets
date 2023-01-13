@@ -7,7 +7,7 @@ from config import Config
 
 
 def main():
-    data = read_farms(Config.SOURCE_PATH)
+    data = read_farms(Config.MARKETS_PATH)
     data_to_load = transform(data)
     load(data_to_load)
 
