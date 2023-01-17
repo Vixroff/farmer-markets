@@ -1,6 +1,3 @@
-from model.mysql.connection import create_connection
-
-
 QUERIES_TYPES = {
     'city': 'Cities',
     'state': 'States',
@@ -8,26 +5,19 @@ QUERIES_TYPES = {
 }
 
 
-def get_data(field, value):
-    result = []
+def get_data(field, value, cursor):
     table = QUERIES_TYPES.get(field)
-    status, answer = create_connection("FarmMarkets")
-    if status is True:
-        query = f"""
-        SELECT fmid, marketname
-        FROM FarmMarkets.Markets
-            INNER JOIN FarmMarkets.Locations
-                ON idMarkets = Markets_idMarkets
-            INNER JOIN FarmMarkets.{table}
-                ON {table}_id{table} = id{table}
-        WHERE {field} = '{value}'
-        """
-        db = answer
-        cursor = db.cursor(dictionary=True)
-        cursor.execute(query)
-        result = cursor.fetchall()
-    else:
-        print(answer)
+    query = f"""
+    SELECT fmid, marketname
+    FROM FarmMarkets.Markets
+        INNER JOIN FarmMarkets.Locations
+            ON idMarkets = Markets_idMarkets
+        INNER JOIN FarmMarkets.{table}
+            ON {table}_id{table} = id{table}
+    WHERE {field} = '{value}'
+    """
+    cursor.execute(query)
+    result = cursor.fetchall()
     return result
 
 

@@ -1,5 +1,6 @@
+from model.mysql.connection import create_connection
 from model.commands.find import get_data
-from views.commands.find import show_output
+from views.find import show_output
 
 
 FIELDS = ('city', 'county', 'state')
@@ -22,8 +23,12 @@ def execute_find():
             value = value.upper()
         else:
             value = value.swapcase()
-        markets = get_data(field, value)
-        show_output(markets)
+        status, db = create_connection("FarmMarkets")
+        if status is True:
+            cursor = db.cursor(dictionary=True, buffered=True)
+            markets = get_data(field, value, cursor)
+            db.close()
+            show_output(markets)
 
 
 if __name__ == "__main__":

@@ -21,7 +21,6 @@ def show_output(markets: list):
                 facebook - {facebook}
                 website - {website}
                 othermedia - {othermedia}
-            \n
             """.format(**market)
             print(x)
     else:
