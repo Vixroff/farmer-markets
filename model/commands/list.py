@@ -1,12 +1,8 @@
-from model.mysql.connection import create_connection
-
-
 GET_MARKETS_DATA = """
 SELECT idMarkets, fmid, marketname,
 state, county, city, zip, street, x, y,
 youtube, facebook, website, othermedia,
-season1, season1_time, season2, season2_time, season3, season3_time, season4, season4_time,
-rate
+season1, season1_time, season2, season2_time, season3, season3_time, season4, season4_time
 FROM FarmMarkets.Markets as ma
 	INNER JOIN FarmMarkets.Locations as lo ON ma.idMarkets = lo.Markets_idMarkets
 		LEFT JOIN FarmMarkets.States as st ON lo.States_idStates = st.idStates
@@ -15,7 +11,6 @@ FROM FarmMarkets.Markets as ma
 		LEFT JOIN FarmMarkets.Zips as zi ON lo.Zips_idZips = zi.idZips
 	INNER JOIN FarmMarkets.Media as me ON ma.idMarkets = me.Markets_idMarkets
 	INNER JOIN FarmMarkets.Seasons as se ON ma.idMarkets = se.Markets_idMarkets
-	LEFT JOIN FarmMarkets.Reviews as re ON ma.idMarkets = re.Markets_idMarkets
 """
 
 
@@ -41,24 +36,29 @@ WHERE ma.idMarkets = %s
 """
 
 
-def get_data():
-    result = []
-    status, answer = create_connection("FarmMarkets")
-    if status is True:
-        db = answer
-        cursor = db.cursor(dictionary=True, buffered=True)
-        cursor.execute(GET_MARKETS_DATA)
-        markets = cursor.fetchall()
-        for market in markets:
-            cursor.execute(GET_MARKET_CATEGORIES, [market['idMarkets']])
-            categories = cursor.fetchall()
-            cursor.execute(GET_MARKET_PAYMENTS, [market['idMarkets']])
-            payments = cursor.fetchall()
-            market = market | categories[0] | payments[0]
-            result.append(market)
-    else:
-        print(answer)
-    return result
+GET_RATING = """
+SELECT ROUND(AVG(IFNULL(re.rate, 0)), 2) AS rate
+FROM FarmMarkets.Markets AS ma
+	LEFT JOIN FarmMarkets.Reviews AS re
+		ON ma.idMarkets = re.Markets_idMarkets
+WHERE ma.idMarkets = %s
+"""
+
+
+def get_data(cursor):
+	result = []
+	cursor.execute(GET_MARKETS_DATA)
+	markets = cursor.fetchall()
+	for market in markets:
+		cursor.execute(GET_MARKET_CATEGORIES, [market['idMarkets']])
+		categories = cursor.fetchall()[0]
+		cursor.execute(GET_MARKET_PAYMENTS, [market['idMarkets']])
+		payments = cursor.fetchall()[0]
+		cursor.execute(GET_RATING, [market['idMarkets']])
+		rating = cursor.fetchall()[0]
+		market = market | categories | payments | rating
+		result.append(market)
+	return result
 
 
 if __name__ == "__main__":

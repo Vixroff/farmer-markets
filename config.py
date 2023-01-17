@@ -16,4 +16,4 @@ class Config:
 
 
 if __name__ == "__main__":
-    print(Config.SOURCE_PATH)
+    print(Config.MARKETS_PATH)
